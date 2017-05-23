@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="br.com.mitraconsignado.whattsapp.activity.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/largura_logo"
+            android:layout_height="@dimen/altura_logo"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:contentDescription=""
+            app:srcCompat="@drawable/logo"
+            tools:ignore="ContentDescription" />
+
+        <EditText
+            android:id="@+id/edit_Nome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imageView"
+            android:layout_marginTop="18dp"
+            android:ems="10"
+            android:hint="@string/digite_seu_nome"
+            android:inputType="textPersonName"
+            android:textColor="@color/textocolorPrimary" />
+
+        <EditText
+            android:id="@+id/edit_cod_pais"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/edit_Nome"
+            android:ems="10"
+            android:hint="@string/_55"
+            android:inputType="number"
+            android:textColor="@color/textocolorPrimary" />
+
+        <EditText
+            android:id="@+id/edit_cod_regiao"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_Nome"
+            android:layout_toRightOf="@+id/edit_cod_pais"
+            android:ems="10"
+            android:hint="@string/_11"
+            android:inputType="number"
+            android:textColor="@color/textocolorPrimary"
+            tools:ignore="RtlHardcoded" />
+
+        <EditText
+            android:id="@+id/edit_telefone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/edit_cod_regiao"
+            android:layout_marginLeft="13dp"
+            android:layout_marginStart="13dp"
+            android:layout_toEndOf="@+id/edit_cod_regiao"
+            android:layout_toRightOf="@+id/edit_cod_regiao"
+            android:ems="10"
+            android:hint="@string/_99999_9999"
+            android:inputType="number"
+            android:textColor="@color/textocolorPrimary" />
+
+        <Button
+            android:id="@+id/button_cadastrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_cod_pais"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:text="@string/botao_cadastrar" />
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

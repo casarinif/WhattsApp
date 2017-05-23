@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">WhattsApp</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="_55">+55</string>
+    <string name="_11">11</string>
+    <string name="tel">97335704</string>
+    <string name="botao_cadastrar">CADASTRAR</string>
+    <string name="digite_seu_nome">Digite seu nome:</string>
+    <string name="title_activity_validador">ValidadorActivity</string>
+    <string name="validacao">Validaçao</string>
+    <string name="voce_recebeu_um_sms_para_valida_ao_do_seu_numero_digite_o_codigo_de_valida_ao_abaixo">Voce recebeu um SMS para validaçao do seu numero, digite o codigo de validaçao abaixo:</string>
+    <string name="digite_o_codigo">Digite o codigo:</string>
+    <string name="validar">Validar</string>
+    <string name="_99999_9999">99999-9999</string>
+</resources>

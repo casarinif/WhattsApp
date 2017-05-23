@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "187964990509",
+    "firebase_url": "https://appmapas-142318.firebaseio.com",
+    "project_id": "appmapas-142318",
+    "storage_bucket": "appmapas-142318.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187964990509:android:413b7bf9390577ab",
+        "android_client_info": {
+          "package_name": "br.com.mitraconsignado.whattsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187964990509-n5q51edukf32qgdge15r4829beho0bol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.mitraconsignado.whattsapp",
+            "certificate_hash": "201b72f24d86b35125d6a3fc47b92419417d364a"
+          }
+        },
+        {
+          "client_id": "187964990509-vbmktgtll0cudhv0kc2tmjd4jv0b6fsj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCogci0JgjN1VZdq7G5eKJdZA86zryYCY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187964990509-vbmktgtll0cudhv0kc2tmjd4jv0b6fsj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
