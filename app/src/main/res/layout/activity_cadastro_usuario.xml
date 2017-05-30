@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.mitraconsignado.whattsapp.activity.CadastroUsuarioActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="150dp"
+            android:layout_height="113dp"
+            android:layout_marginTop="0dp"
+            android:contentDescription=""
+            app:srcCompat="@drawable/usuario"
+            tools:ignore="ContentDescription"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:id="@+id/edit_cadastro_nome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="@string/digite_o_seu_nome"
+            android:inputType="textPersonName"
+            android:textColor="@android:color/white" />
+
+        <EditText
+            android:id="@+id/edit_cadastro_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_cadastro_nome"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:hint="@string/digite_o_seu_e_mail"
+            android:inputType="textWebEmailAddress"
+            android:textColor="@android:color/white" />
+
+        <EditText
+            android:id="@+id/edit_cadastro_senha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_cadastro_email"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:hint="@string/digite_sua_senha1"
+            android:inputType="textPassword"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/button_cadastrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_cadastro_senha"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/cadastrar"
+            android:textColor="@android:color/white" />
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

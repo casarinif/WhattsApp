@@ -5,10 +5,6 @@ import android.content.SharedPreferences;
 
 import java.util.HashMap;
 
-/**
- * Created by Eduardo on 22/05/2017.
- */
-
 public class Preferencias {
     private Context contexto;
     private SharedPreferences preferences;
@@ -16,9 +12,7 @@ public class Preferencias {
     private int MODE = 0;
     private SharedPreferences.Editor editor;
 
-    private String CHAVE_NOME = "nome";
-    private String CHAVE_TELEFONE = "telefone";
-    private String CHAVE_TOKEN = "token";
+    private String CHAVE_IDENTIFICADOR = "identificadorUsuarioLogado";
 
     public Preferencias(Context contextoParametro) {
 
@@ -27,19 +21,21 @@ public class Preferencias {
         editor = preferences.edit();
 
     }
-    public void salvarUsuarioPreferencias (String nome, String telefone, String token){
+    public void salvarDados (String identificadorUsuario){
 
-        editor.putString(CHAVE_NOME,nome);
-        editor.putString(CHAVE_TELEFONE, telefone);
-        editor.putString(CHAVE_TOKEN, token);
+        editor.putString(CHAVE_IDENTIFICADOR,identificadorUsuario);
         editor.commit();
     }
-    public HashMap<String, String> getDadosUsuario(){
 
-        HashMap<String, String> dadosUsuarios = new HashMap<>();
-        dadosUsuarios.put(CHAVE_NOME,preferences.getString(CHAVE_NOME,null));
-        dadosUsuarios.put(CHAVE_TELEFONE,preferences.getString(CHAVE_TELEFONE,null));
-        dadosUsuarios.put(CHAVE_TOKEN,preferences.getString(CHAVE_TOKEN,null));
-        return dadosUsuarios;
+    public String getIdentificador(){
+        return preferences.getString(CHAVE_IDENTIFICADOR,null);
     }
+//    public HashMap<String, String> getDadosUsuario(){
+//
+//        HashMap<String, String> dadosUsuarios = new HashMap<>();
+//        dadosUsuarios.put(CHAVE_NOME,preferences.getString(CHAVE_NOME,null));
+//        dadosUsuarios.put(CHAVE_TELEFONE,preferences.getString(CHAVE_TELEFONE,null));
+//        dadosUsuarios.put(CHAVE_TOKEN,preferences.getString(CHAVE_TOKEN,null));
+//        return dadosUsuarios;
+//    }
 }

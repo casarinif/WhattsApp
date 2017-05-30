@@ -14,135 +14,106 @@ import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.HashMap;
 import java.util.Random;
 import java.util.StringTokenizer;
 
 import br.com.mitraconsignado.whattsapp.R;
+import br.com.mitraconsignado.whattsapp.config.ConfiguracaoFirebase;
+import br.com.mitraconsignado.whattsapp.helper.Base64Custom;
 import br.com.mitraconsignado.whattsapp.helper.Permissao;
 import br.com.mitraconsignado.whattsapp.helper.Preferencias;
+import br.com.mitraconsignado.whattsapp.modelo.Usuario;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText nome;
-    private EditText fone;
-    private EditText codpais;
-    private EditText codarea;
-    private Button cadastrar;
-    private String[] permisaoNecesarias = new String[]{
-            Manifest.permission.SEND_SMS,
-            Manifest.permission.INTERNET
-    };
-
+    private EditText email;
+    private EditText senha;
+    private Button botaoLogar;
+    private Usuario usuario;
+    private FirebaseAuth autenticacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Permissao.validaPermisao(this, permisaoNecesarias, 1);
+        verificarUsuarioLogado();
 
-        nome = (EditText) findViewById(R.id.edit_Nome);
-        fone = (EditText) findViewById(R.id.edit_telefone);
-        codpais = (EditText) findViewById(R.id.edit_cod_pais);
-        codarea = (EditText) findViewById(R.id.edit_cod_regiao);
-        cadastrar = (Button) findViewById(R.id.button_cadastrar);
+        email = (EditText) findViewById(R.id.edit_login_email);
+        senha = (EditText) findViewById(R.id.edit_login_senha);
+        botaoLogar = (Button) findViewById(R.id.bt_logar);
 
-        SimpleMaskFormatter simpleMaskCodPais = new SimpleMaskFormatter("+NN");
-        SimpleMaskFormatter simpleMaskCodRegiao = new SimpleMaskFormatter("NN");
-        SimpleMaskFormatter simpleMaskTelefone = new SimpleMaskFormatter("NNNN-NNNNN");
-
-        MaskTextWatcher maskCodPais = new MaskTextWatcher(codpais, simpleMaskCodPais);
-        MaskTextWatcher maskCodRegiao = new MaskTextWatcher(codarea, simpleMaskCodRegiao);
-        MaskTextWatcher masktelefomne = new MaskTextWatcher(fone, simpleMaskTelefone);
-
-        codpais.addTextChangedListener(maskCodPais);
-        codarea.addTextChangedListener(maskCodRegiao);
-        fone.addTextChangedListener(masktelefomne);
-
-        cadastrar.setOnClickListener(new View.OnClickListener() {
+        botaoLogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nomeUsuario = nome.getText().toString();
-                String telefoneCompleto =
-                        codpais.getText().toString() +
-                                codarea.getText().toString() +
-                                fone.getText().toString();
-
-                String telefoneSemFormatacao = telefoneCompleto.replace("+", "");
-                telefoneSemFormatacao = telefoneSemFormatacao.replace("-", "");
-//                Log.i("TELEFONE","T = "+telefoneSemFormatacao);
-
-                //gerar o token não é recomendado
-                Random randomico = new Random();
-                int numerorandomico = randomico.nextInt(9999 - 1000) + 1000;
-                String token = String.valueOf(numerorandomico);
-                String mensagemEnvio = "Whatsapp Código de Confirmação:" + token;
-
-                //salvar os dados para validar
-                Preferencias preferencias = new Preferencias(LoginActivity.this);
-                preferencias.salvarUsuarioPreferencias(nomeUsuario, telefoneSemFormatacao, token);
-
-                //Envio do SMS
-                boolean enviadoSMS = enviaSMS("+" + telefoneSemFormatacao, mensagemEnvio);
-
-                if (enviadoSMS ){
-                    Intent intent = new Intent(getBaseContext(),ValidadorActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else {
-                    Toast.makeText(getBaseContext(),"Problema ao enviar o SMS, tente de novamente!!",Toast.LENGTH_LONG).show();
-                }
-
-//                HashMap<String, String> usuarios = preferencias.getDadosUsuario();
-//                Log.i("Token","T = "+usuarios.get("nome")+" token: "+ usuarios.get("token")+ " tel: "+ usuarios.get("telefone"));
-
-
+                usuario = new Usuario();
+                usuario.setEmail(email.getText().toString());
+                usuario.setSenha(senha.getText().toString());
+                validarLogin();
             }
-
         });
-
     }
 
-    private boolean enviaSMS(String telefone, String mensagem) {
-        try {
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(telefone, null, mensagem, null, null);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+    private void validarLogin() {
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        for (int resultado : grantResults){
-            if (resultado == PackageManager.PERMISSION_DENIED){
-                alertaValidacaoPermissao();
-            }
-        }
-    }
 
-    private void alertaValidacaoPermissao() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Permissão negada");
-        builder.setMessage("Para utilizar o app, é preciso aceitar as permissões");
-        builder.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener() {
+        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        autenticacao.signInWithEmailAndPassword(
+                usuario.getEmail(),
+                usuario.getSenha()
+        ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if (task.isSuccessful()) {
+                    //aqui vai salvar os dados no celular
+                    Preferencias preferencias = new Preferencias(LoginActivity.this);
+                    String identificadorUsuarioLogado = Base64Custom.codificarBase64(usuario.getEmail());
+                    preferencias.salvarDados(identificadorUsuarioLogado);
+
+                    abrirTelaPrincipal();
+                    Toast.makeText(LoginActivity.this, "Sucesso ao fazer login!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Erro ao fazer login!", Toast.LENGTH_LONG).show();
+                }
             }
         });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    }
+
+    public void abrirTelaPrincipal() {
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void abrirCadastroUsuario(View view) {
+        Intent intent = new Intent(getBaseContext(), CadastroUsuarioActivity.class);
+        startActivity(intent);
+    }
+
+    private void verificarUsuarioLogado() {
+        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        if (autenticacao.getCurrentUser() != null) {
+            abrirTelaPrincipal();
+        }
     }
 }
