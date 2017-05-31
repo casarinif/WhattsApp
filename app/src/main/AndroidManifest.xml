@@ -32,6 +32,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.mitraconsignado.whattsapp.activity.MainActivity" />
         </activity>
+        <activity android:name=".activity.ConversaActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.mitraconsignado.whattsapp.activity.MainActivity">
+            </meta-data>
+        </activity>
+
     </application>
 
 </manifest>
