@@ -14,44 +14,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.mitraconsignado.whattsapp.R;
-import br.com.mitraconsignado.whattsapp.modelo.Contato;
+import br.com.mitraconsignado.whattsapp.modelo.Conversa;
 
 /**
- * Created by Eduardo on 30/05/2017.
+ * Created by Eduardo on 05/06/2017.
  */
 
-public class ContatoAdapter extends ArrayAdapter<Contato>{
+public class ConversaAdapter extends ArrayAdapter<Conversa> {
 
-    private ArrayList<Contato> contatos;
+    private ArrayList<Conversa> conversas;
     private Context context;
 
-    public ContatoAdapter(Context c, ArrayList<Contato> objects) {
+    public ConversaAdapter(Context c,ArrayList<Conversa> objects) {
         super(c, 0, objects);
-        this.contatos = objects;
+        this.conversas = objects;
         this.context = c;
     }
 
     @Override
-    public View getView(int position, View convertView,  ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         View view = null;
-
         //verificar se tem contatos
-        if (contatos != null){
+        if (conversas != null){
             //inicializar objeto para montagem da view
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 
             //montar a view apartir do xml
-            view = inflater.inflate(R.layout.lista_contatos,parent,false);
+            view = inflater.inflate(R.layout.lista_mensagem,parent,false);
 
             //recuperar elemento para exibição
-            TextView nomeContato =(TextView) view.findViewById(R.id.tv_nome);
-            TextView emailContato =(TextView) view.findViewById(R.id.tv_email);
+            TextView nomeContato =(TextView) view.findViewById(R.id.tv_titulo);
+            TextView mensagem =(TextView) view.findViewById(R.id.tv_subtitulo);
 
-            Contato contato = contatos.get(position);
-            nomeContato.setText(contato.getNome());
-            emailContato.setText(contato.getEmail());
-        }
+            Conversa conversa = conversas.get(position);
+            nomeContato.setText(conversa.getNome());
+            mensagem.setText(conversa.getMensagem());
 
+    }
         return view;
     }
 }

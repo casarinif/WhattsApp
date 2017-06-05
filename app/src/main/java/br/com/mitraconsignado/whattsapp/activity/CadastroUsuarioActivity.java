@@ -73,32 +73,30 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     Toast.makeText(getBaseContext(),"Sucesso ao cadastrar usuarios",Toast.LENGTH_LONG).show();
 
-                   String identificadorUsuario = Base64Custom.codificarBase64(usuario.getEmail());
+                    String identificadorUsuario = Base64Custom.codificarBase64(usuario.getEmail());
                     usuario.setId(identificadorUsuario);
                     usuario.salvar();
 
                     //aqui vai salvar os dados no celular
                     Preferencias preferencias = new Preferencias(CadastroUsuarioActivity.this);
-                    String identificadorUsuarioLogado = Base64Custom.codificarBase64(usuario.getEmail());
-                    preferencias.salvarDados(identificadorUsuarioLogado);
+                    preferencias.salvarDados(identificadorUsuario,usuario.getNome());
 
                     abrirLoginUsuario();
 
                 }else {
-                    String erroExcecao = "";
+                    String erro = "";
                     try {
                         throw task.getException();
                     } catch (FirebaseAuthWeakPasswordException e) {
-                        erroExcecao = "Digite uma senha mais forte, contendo mais caracteres e com letras e números";
+                        erro = "Digite uma senha mais forte, contendo mais caracteres e com letras e números";
                     } catch (FirebaseAuthInvalidCredentialsException e) {
-                        erroExcecao = "Digite uma e-mail valido,ou um e-mail novo";
+                        erro = "Digite uma e-mail valido,ou um e-mail novo";
                     } catch (FirebaseAuthUserCollisionException e) {
-                        erroExcecao = "Este e-mail já esta em uso no App! ";
+                        erro = "Já existe uma conta com este e-mail. ";
                     } catch (Exception e) {
-                        erroExcecao = "Erro ao efetuar o cadastro ";
                         e.printStackTrace();
                     }
-                    Toast.makeText(getBaseContext(),"Erro:  "+ erroExcecao,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),"Erro ao cadatrar o usuario:  "+ erro,Toast.LENGTH_LONG).show();
                 }
             }
         });

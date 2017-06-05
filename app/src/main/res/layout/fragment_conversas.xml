@@ -5,11 +5,12 @@
     android:layout_height="match_parent"
     tools:context="br.com.mitraconsignado.whattsapp.fragment.ConversasFragment">
 
-
-    <TextView
-        android:id="@+id/textView4"
+    <ListView
+        android:id="@+id/lv_conversas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="Conversas" />
+        android:layout_height="wrap_content"
+        android:divider="@color/cinza"
+        android:padding="12dp"
+        android:dividerHeight="1dp"
+        android:layout_gravity="center_horizontal|top" />
 </FrameLayout>
